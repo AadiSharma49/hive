@@ -61,9 +61,9 @@ def run(repo, from_tag, to_tag, quiet, verbose, debug):
         click.echo(json.dumps(output_data, indent=2))
     else:
         if result.success:
-            click.echo("✅ Release notes generated successfully!")
+            click.echo("Release notes generated successfully!")
         else:
-            click.echo("❌ Failed to generate release notes")
+            click.echo("Failed to generate release notes")
             if result.error:
                 click.echo(f"Error: {result.error}")
         click.echo(json.dumps(output_data, indent=2))
@@ -81,9 +81,9 @@ def validate():
     """Validate agent configuration."""
     validation = default_agent.validate()
     if validation["valid"]:
-        click.echo("✅ Agent configuration is valid")
+        click.echo("Agent configuration is valid")
     else:
-        click.echo("❌ Agent configuration has errors:")
+        click.echo("Agent configuration has errors:")
         for error in validation["errors"]:
             click.echo(f"  - {error}")
     click.echo(json.dumps(validation, indent=2))
