@@ -40,10 +40,11 @@ def run(repo, from_tag, to_tag, quiet, verbose, debug):
     if not quiet:
         setup_logging(verbose=verbose, debug=debug)
 
+    # Map CLI inputs to node inputs (intake_node expects repo/version/since)
     context = {
         "repo": repo,
-        "from_tag": from_tag,
-        "to_tag": to_tag,
+        "version": from_tag,
+        "since": to_tag,
     }
 
     result = asyncio.run(default_agent.run(context))

@@ -1,6 +1,7 @@
 """Agent graph construction for Release Notes Generator Agent."""
 
 from pathlib import Path
+from typing import Any
 
 from framework.graph import EdgeSpec, EdgeCondition, Goal, SuccessCriterion, Constraint
 from framework.graph.edge import GraphSpec
@@ -252,7 +253,7 @@ class ReleaseNotesGeneratorAgent:
         finally:
             await self.stop()
 
-    def info(self) -> dict[str, any]:
+    def info(self) -> dict[str, Any]:
         """Get agent information."""
         return {
             "id": "release-notes-generator",
@@ -264,7 +265,7 @@ class ReleaseNotesGeneratorAgent:
             "edges": len(self.edges),
         }
 
-    def validate(self) -> dict[str, any]:
+    def validate(self) -> dict[str, Any]:
         """Validate the agent configuration."""
         errors = []
 
@@ -277,6 +278,13 @@ class ReleaseNotesGeneratorAgent:
         for terminal_node in self.terminal_nodes:
             if terminal_node not in node_ids:
                 errors.append(f"Terminal node '{terminal_node}' not found")
+
+        # Check edges refer to valid nodes
+        for edge in self.edges:
+            if edge.source not in node_ids:
+                errors.append(f"Edge source '{edge.source}' not found")
+            if edge.target not in node_ids:
+                errors.append(f"Edge target '{edge.target}' not found")
 
         return {"valid": len(errors) == 0, "errors": errors}
 
